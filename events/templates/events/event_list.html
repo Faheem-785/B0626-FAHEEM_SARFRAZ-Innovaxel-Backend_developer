@@ -1,0 +1,103 @@
+{% extends 'base.html' %} {% block content %}
+
+<form method="GET" class="mb-3 d-flex gap-2">
+  <select name="sort" class="form-select">
+    <option value="">Sort</option>
+    <option value="date">Date</option>
+    <option value="name">Name</option>
+  </select>
+
+  <select name="upcoming" class="form-select">
+    <option value="">All Events</option>
+    <option value="true">Upcoming Only</option>
+  </select>
+
+  <button class="btn btn-primary">Apply</button>
+</form>
+
+{% if messages %} {% for message in messages %} {% if not message.extra_tags %}
+<div class="alert alert-{{ message.tags }} shadow-sm">{{ message }}</div>
+{% endif %} {% endfor %} {% endif %}
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+  <h2 class="fw-bold">📅 Events</h2>
+</div>
+
+<div class="row g-4">
+  {% for event in events %}
+  <div class="col-md-6 col-lg-4">
+    <div class="card event-card h-100">
+      <div class="card-body d-flex flex-column">
+        <h4 class="fw-bold mb-2">{{ event.name }}</h4>
+
+        <span class="badge bg-primary mb-3 w-fit">
+          📅 {{ event.event_date }}
+        </span>
+
+        <p class="mb-2 text-muted">
+          🎟 Seats:
+          <strong class="text-dark">{{ event.available_seats }}</strong>
+          / {{ event.total_seats }}
+        </p>
+
+        <div class="progress mb-3" style="height: 10px; border-radius: 20px">
+          <div
+            class="progress-bar bg-success"
+            style="width: {{ event.filled_percentage }}%; border-radius: 20px;"
+          ></div>
+        </div>
+
+        {% if error_event_id == event.id and card_error %}
+        <div class="alert alert-danger py-2 px-3 mb-3 small shadow-sm">
+          ⚠️ {{ card_error }}
+        </div>
+        {% endif %}
+
+        <div class="mt-auto d-flex flex-column gap-2">
+          <form method="POST" class="p-2 bg-light rounded-3">
+            {% csrf_token %}
+            <input type="hidden" name="action" value="register" />
+            <input type="hidden" name="event_id" value="{{ event.id }}" />
+
+            <input
+              type="text"
+              name="user_name"
+              class="form-control mb-2 shadow-sm"
+              placeholder="Enter your name"
+              required
+            />
+            <button class="btn btn-primary w-100 fw-semibold">
+              Register Now 🚀
+            </button>
+          </form>
+
+          <form method="POST" class="p-2 bg-light rounded-3">
+            {% csrf_token %}
+            <input type="hidden" name="event_id" value="{{ event.id }}" />
+            <input type="hidden" name="action" value="cancel" />
+
+            <input
+              type="text"
+              name="user_name"
+              class="form-control mb-2 shadow-sm"
+              placeholder="Enter registered name to cancel"
+              required
+            />
+            <button class="btn btn-danger w-100 fw-semibold">
+              Cancel Registration ❌
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+  {% empty %}
+
+  <div class="col-12 text-center py-5">
+    <div class="alert alert-warning shadow-sm">No events found 😢</div>
+  </div>
+
+  {% endfor %}
+</div>
+
+{% endblock %}

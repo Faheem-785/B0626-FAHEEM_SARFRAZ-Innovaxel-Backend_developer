@@ -1,0 +1,46 @@
+{% extends 'base.html' %} {% block content %}
+
+<div class="create-wrapper">
+  <div class="create-card">
+    <div class="text-center mb-4">
+      <h2 class="fw-bold">🎉 Create Event</h2>
+      <p class="text-muted">Add a new event in seconds</p>
+    </div>
+
+    {% if message %}
+    <div class="alert alert-info text-center">{{ message }}</div>
+    {% endif %}
+
+    <form method="POST">
+      {% csrf_token %}
+
+      <!-- Event Name -->
+      <div class="mb-3">
+        <label class="form-label">Event Name</label>
+        {{ form.name }} {% if form.name.errors %}
+        <div class="text-danger small">{{ form.name.errors }}</div>
+        {% endif %}
+      </div>
+
+      <!-- Total Seats -->
+      <div class="mb-3">
+        <label class="form-label">Total Seats</label>
+        {{ form.total_seats }} {% if form.total_seats.errors %}
+        <div class="text-danger small">{{ form.total_seats.errors }}</div>
+        {% endif %}
+      </div>
+
+      <!-- Event Date -->
+      <div class="mb-4">
+        <label class="form-label">Event Date</label>
+        {{ form.event_date }} {% if form.event_date.errors %}
+        <div class="text-danger small">{{ form.event_date.errors }}</div>
+        {% endif %}
+      </div>
+
+      <button class="btn btn-success btn-lg w-100">➕ Create Event</button>
+    </form>
+  </div>
+</div>
+
+{% endblock %}
