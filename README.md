@@ -1,3 +1,15 @@
+
+
+
+
+
+## 📺 Project Demo Video
+You can watch the full video demonstration of this Event Registration System on [Google Drive](https://drive.google.com/file/d/1qY7hNN7wcvWI_2AUQQ4ChX4xImJaYm6F/view?usp=drivesdk)
+
+
+
+
+
 # 🎟️ Event Registration System (Django + PostgreSQL + DRF)
 
 A backend system built with **Django, Django REST Framework, and PostgreSQL** that allows users to create events, register for events, and manage registrations with strict constraints like seat limits, duplicate prevention, and race-condition safety.
